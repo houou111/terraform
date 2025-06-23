@@ -13,11 +13,6 @@ provider "google" {
   region  = var.region
 }
 
-module "network" {
-  source = "../../modules/network"
-  network_name = "dev-vpc"
-}
-
 module "compute" {
   source   = "../../modules/compute"
   vm_names = var.vm_names
@@ -26,6 +21,7 @@ module "compute" {
   zone = var.zone
   image = var.image
   disk_size = var.disk_size
-  network = module.network.network_name
+  network = var.network_name
   region = var.region
+  resource_policies = var.dev_vm_resource_policy_self_link
 }

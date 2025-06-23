@@ -4,22 +4,6 @@ resource "google_compute_address" "static_ips" {
   region = var.region
 }
 
-resource "google_compute_resource_policy" "auto_start_stop" {
-  count = length(var.vm_names)
-  name  = "${var.vm_names[count.index]}-auto-schedule"
-  region = var.region
-
-  instance_schedule_policy {
-    vm_start_schedule {
-      schedule = "0 1 * * *" # 8h sáng GMT+7 (tức 1h UTC)
-    }
-    vm_stop_schedule {
-      schedule = "0 12 * * *" # 19h tối GMT+7 (tức 12h UTC)
-    }
-    time_zone = "Asia/Bangkok"
-  }
-}
-
 resource "google_compute_instance" "nodes" {
   count        = length(var.vm_names)
   name         = var.vm_names[count.index]
@@ -44,5 +28,5 @@ resource "google_compute_instance" "nodes" {
     ssh-keys = var.ssh_keys
   }
 
-  resource_policies = [google_compute_resource_policy.auto_start_stop[count.index].self_link]
+  resource_policies = var.resource_policies != null ? [var.resource_policies] : null
 }

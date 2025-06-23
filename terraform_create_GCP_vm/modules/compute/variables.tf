@@ -37,3 +37,9 @@ variable "region" {
   description = "GCP region cho static IP"
   type        = string
 }
+
+variable "resource_policies" {
+  description = "Resource policy chung cho các VM (nếu có)"
+  type        = string
+  default     = null
+}
