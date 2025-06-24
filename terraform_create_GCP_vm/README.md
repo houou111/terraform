@@ -37,34 +37,33 @@ Project mẫu triển khai hạ tầng GCP theo chuẩn best practice:
 ## Cấu trúc thư mục
 ```
 terraform_create_GCP_vm/
+├── .gitignore
+├── README.md
 ├── envs/
 │   ├── dev_center/
 │   │   ├── backend.tf
 │   │   ├── main.tf
 │   │   ├── outputs.tf
-│   │   ├── ssh_key.tf
 │   │   ├── terraform.tfvars
 │   │   └── variables.tf
 │   ├── dev_common/
 │   │   ├── iam.tf
 │   │   ├── main.tf
 │   │   ├── outputs.tf
+│   │   ├── terraform.tfstate
+│   │   ├── terraform.tfstate.backup
 │   │   ├── terraform.tfvars
 │   │   └── variables.tf
 │   ├── dev_node/
 │   │   ├── backend.tf
-│   │   ├── iam.tf
 │   │   ├── main.tf
 │   │   ├── outputs.tf
 │   │   ├── ssh_key.tf
 │   │   ├── terraform.tfvars
 │   │   └── variables.tf
-│   ├── prod_common/
-│   ├── prod_center/
-│   ├── prod_node/
-│   ├── uat_common/
-│   ├── uat_center/
-│   └── uat_node/
+│   ├── prod_center/ (empty)
+│   ├── prod_common/ (empty)
+│   └── prod_node/ (empty)
 ├── global/
 │   ├── providers.tf
 │   └── versions.tf
@@ -72,23 +71,19 @@ terraform_create_GCP_vm/
 │   ├── compute/
 │   │   ├── main.tf
 │   │   ├── outputs.tf
-│   │   ├── README.md
-│   │   └── variables.tf
+│   │   ├── variables.tf
+│   │   └── README.md
 │   └── network/
 │       ├── main.tf
 │       ├── outputs.tf
-│       ├── README.md
-│       └── variables.tf
+│       ├── variables.tf
+│       └── README.md
 ├── scripts/
 │   └── init.sh
 ├── templates/
+│   ├── center_template.sh.tmpl
 │   ├── cloud-init.yaml.tmpl
-│   └── user_data.sh.tmpl
-├── main.tf
-├── outputs.tf
-├── variables.tf
-├── .gitignore
-└── README.md
+│   └── node_template.sh.tmpl
 ```
 
 ## Hướng dẫn sử dụng
