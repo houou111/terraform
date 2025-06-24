@@ -1,12 +1,13 @@
-variable "env" {
-  description = "Môi trường triển khai"
-  type        = string
-}
-
 variable "project_id" {
   description = "GCP project ID"
   type        = string
 }
+
+variable "project_number" {
+  description = "Project number của GCP project"
+  type        = string
+}
+
 
 variable "region" {
   description = "GCP region"
@@ -43,7 +44,13 @@ variable "vm_names" {
   type        = list(string)
 }
 
-variable "project_number" {
-  description = "Project number của GCP project"
+
+variable "network_name" {
+  description = "Tên VPC network dùng chung từ dev_common"
+  type        = string
+}
+
+variable "dev_vm_resource_policy_self_link" {
+  description = "Resource policy chung cho VM dev từ dev_common"
   type        = string
 }

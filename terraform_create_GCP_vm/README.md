@@ -59,20 +59,12 @@ terraform_create_GCP_vm/
 │   │   ├── ssh_key.tf
 │   │   ├── terraform.tfvars
 │   │   └── variables.tf
-│   ├── prod/
-│   │   ├── backend.tf
-│   │   ├── iam.tf
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   ├── terraform.tfvars
-│   │   └── variables.tf
-│   └── staging/
-│       ├── backend.tf
-│       ├── iam.tf
-│       ├── main.tf
-│       ├── outputs.tf
-│       ├── terraform.tfvars
-│       └── variables.tf
+│   ├── prod_common/
+│   ├── prod_center/
+│   ├── prod_node/
+│   ├── uat_common/
+│   ├── uat_center/
+│   └── uat_node/
 ├── global/
 │   ├── providers.tf
 │   └── versions.tf
