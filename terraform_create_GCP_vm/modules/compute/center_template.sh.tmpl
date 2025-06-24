@@ -1,0 +1,39 @@
+#!/bin/bash
+# Template cho center (dev_center, prod_center, ...)
+# Cập nhật hệ thống cho CentOS/RedHat
+sudo dnf update -y || sudo yum update -y
+
+# Cài đặt basic packages
+sudo dnf install -y telnet ntp mlocate chrony unzip nfs-utils lsof sysstat net-tools wget net-snmp net-snmp-utils zip bind-utils nmap git ansible || sudo yum install -y telnet ntp mlocate chrony unzip nfs-utils lsof sysstat net-tools wget net-snmp net-snmp-utils zip bind-utils nmap git ansible
+
+# Cài đặt Terraform
+if ! command -v terraform &>/dev/null; then
+  sudo yum install -y yum-utils || true
+  sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+  sudo yum -y install terraform
+fi
+
+# Thêm user ansible nếu chưa có
+if ! id ansible &>/dev/null; then
+  sudo useradd -m -s /bin/bash ansible
+fi
+
+# Thêm ansible vào sudoers không cần password
+sudo bash -c 'echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible'
+sudo chmod 440 /etc/sudoers.d/ansible
+
+# Tạo thư mục .ssh và authorized_keys cho ansible
+sudo mkdir -p /home/ansible/.ssh
+sudo bash -c 'echo "${ssh_keys}" | sed "s/^ansible://g" > /home/ansible/.ssh/authorized_keys'
+
+sudo chown -R ansible:ansible /home/ansible/.ssh
+sudo chmod 700 /home/ansible/.ssh
+sudo chmod 600 /home/ansible/.ssh/authorized_keys
+
+# Sinh cặp key cho ansible nếu chưa có
+sudo -u ansible bash -c '[[ -f /home/ansible/.ssh/id_rsa ]] || ssh-keygen -t rsa -b 4096 -N "" -f /home/ansible/.ssh/id_rsa'
+sudo chown ansible:ansible /home/ansible/.ssh/id_rsa*
+sudo chmod 600 /home/ansible/.ssh/id_rsa
+sudo chmod 644 /home/ansible/.ssh/id_rsa.pub
+
+

@@ -50,3 +50,17 @@ variable "center_ansible_pubkey" {
   type        = string
   default     = ""
 }
+
+variable "is_dev_center" {
+  description = "True nếu là dev_center, để chọn startup script phù hợp"
+  type        = bool
+  default     = false
+}
+
+variable "template" {
+  description = "Tên template script sẽ dùng cho VM (node_template hoặc center_template)"
+  type        = string
+  default     = "node_template"
+}
+
+# Đã bỏ biến startup_script, chỉ dùng biến template để chọn script
