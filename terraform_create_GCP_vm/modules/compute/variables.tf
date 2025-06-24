@@ -31,6 +31,7 @@ variable "network" {
 
 variable "ssh_keys" {
   type    = string
+  default = ""
 }
 
 variable "region" {
@@ -42,4 +43,10 @@ variable "resource_policies" {
   description = "Resource policy chung cho các VM (nếu có)"
   type        = string
   default     = null
+}
+
+variable "center_ansible_pubkey" {
+  description = "Public key của user ansible trên center"
+  type        = string
+  default     = ""
 }

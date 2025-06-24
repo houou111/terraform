@@ -32,6 +32,6 @@ resource "google_compute_resource_policy" "dev_vm_auto_schedule" {
     vm_stop_schedule {
       schedule = var.vm_stop_time
     }
-    time_zone = "Asia/Bangkok"
+    time_zone = var.time_zone
   }
 }

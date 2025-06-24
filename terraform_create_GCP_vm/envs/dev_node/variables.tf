@@ -18,11 +18,6 @@ variable "zone" {
   type        = string
 }
 
-variable "ssh_keys" {
-  description = "SSH public key cho VM"
-  type        = string
-}
-
 variable "machine_type" {
   description = "Loại máy cho VM"
   type        = string
@@ -51,5 +46,16 @@ variable "network_name" {
 
 variable "dev_vm_resource_policy_self_link" {
   description = "Resource policy chung cho VM dev từ dev_common"
+  type        = string
+}
+
+variable "center_ansible_pubkey" {
+  description = "Public key của user ansible trên center"
+  type        = string
+  default     = ""
+}
+
+variable "ssh_keys" {
+  description = "SSH public key cho VM"
   type        = string
 }

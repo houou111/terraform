@@ -16,7 +16,6 @@ provider "google" {
 module "compute" {
   source   = "../../modules/compute"
   vm_names = var.vm_names
-  ssh_keys = var.ssh_keys
   machine_type = var.machine_type
   zone = var.zone
   image = var.image
@@ -24,4 +23,5 @@ module "compute" {
   network = var.network_name
   region = var.region
   resource_policies = var.dev_vm_resource_policy_self_link
+  ssh_keys = var.ssh_keys
 }

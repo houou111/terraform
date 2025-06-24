@@ -15,7 +15,7 @@ This project creates 3 Google Cloud VMs named node1, node2, and node3 using Terr
 
 3. **Apply the configuration**
    ```bash
-   terraform apply
+      terraform apply
    ```
 
 ## Files
@@ -38,15 +38,63 @@ Project mẫu triển khai hạ tầng GCP theo chuẩn best practice:
 ```
 terraform_create_GCP_vm/
 ├── envs/
-│   ├── dev/
-│   ├── staging/
-│   └── prod/
-├── modules/
-│   ├── network/
-│   └── compute/
-├── templates/
+│   ├── dev_center/
+│   │   ├── backend.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── ssh_key.tf
+│   │   ├── terraform.tfvars
+│   │   └── variables.tf
+│   ├── dev_common/
+│   │   ├── iam.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── terraform.tfvars
+│   │   └── variables.tf
+│   ├── dev_node/
+│   │   ├── backend.tf
+│   │   ├── iam.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── ssh_key.tf
+│   │   ├── terraform.tfvars
+│   │   └── variables.tf
+│   ├── prod/
+│   │   ├── backend.tf
+│   │   ├── iam.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── terraform.tfvars
+│   │   └── variables.tf
+│   └── staging/
+│       ├── backend.tf
+│       ├── iam.tf
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── terraform.tfvars
+│       └── variables.tf
 ├── global/
+│   ├── providers.tf
+│   └── versions.tf
+├── modules/
+│   ├── compute/
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── README.md
+│   │   └── variables.tf
+│   └── network/
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── README.md
+│       └── variables.tf
 ├── scripts/
+│   └── init.sh
+├── templates/
+│   ├── cloud-init.yaml.tmpl
+│   └── user_data.sh.tmpl
+├── main.tf
+├── outputs.tf
+├── variables.tf
 ├── .gitignore
 └── README.md
 ```
@@ -64,4 +112,47 @@ terraform_create_GCP_vm/
 - Terraform >= 1.0
 - Đã cấu hình Google Cloud SDK và quyền truy cập
 - Đã tạo bucket để lưu state
+
+# Hướng dẫn quy trình SSH key và apply từng môi trường
+
+1. **Triển khai resource chung (_common)**
+   - Vào thư mục `envs/dev_common`:
+     ```bash
+     cd envs/dev_common
+     terraform apply
+     ```
+
+2. **Lấy SSH public key của máy Windows (hoặc máy bạn muốn làm trung tâm quản lý)**
+   - Copy nội dung file public key (ví dụ: `C:\Users\<user>\.ssh\id_rsa.pub`)
+
+3. **Thêm SSH public key vào `terraform.tfvars` của _center**
+   - Mở file `envs/dev_center/terraform.tfvars`
+   - Gán biến `ssh_keys` với public key vừa copy:
+     ```hcl
+     ssh_keys = "ansible:ssh-rsa AAAA... user@host"
+     ```
+
+4. **Apply môi trường _center**
+   - Vào thư mục `envs/dev_center`:
+     ```bash
+     cd envs/dev_center
+     terraform apply
+     ```
+
+5. **Lấy SSH public key của _center (output sau khi apply)**
+   - Sau khi apply, lấy public key của user ansible trên VM center (hoặc lấy từ output nếu có cấu hình output)
+
+6. **Thêm SSH public key của _center vào `terraform.tfvars` của _node**
+   - Mở file `envs/dev_node/terraform.tfvars`
+   - Gán biến `ssh_keys` với public key vừa lấy từ _center:
+     ```hcl
+     ssh_keys = "ansible:ssh-rsa AAAA... ansible@center"
+     ```
+
+7. **Apply môi trường _node**
+   - Vào thư mục `envs/dev_node`:
+     ```bash
+     cd envs/dev_node
+     terraform apply
+     ```
 

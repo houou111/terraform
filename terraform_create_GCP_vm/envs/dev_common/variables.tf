@@ -32,7 +32,6 @@ variable "region" {
   default     = "asia-southeast1"
 }
 
-
 variable "vm_start_time" {
   description = "Lịch bật VM (cron UTC)"
   type        = string
@@ -43,4 +42,10 @@ variable "vm_stop_time" {
   description = "Lịch tắt VM (cron UTC)"
   type        = string
   default     = "0 12 * * *"
+}
+
+variable "time_zone" {
+  description = "Timezone cho resource policy schedule (ví dụ: Asia/Bangkok)"
+  type        = string
+  default     = "Asia/Bangkok"
 }

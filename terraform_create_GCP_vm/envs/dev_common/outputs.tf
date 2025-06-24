@@ -15,5 +15,5 @@ output "subnet_ip_cidr_range" {
 
 output "dev_vm_resource_policy_self_link" {
   value       = google_compute_resource_policy.dev_vm_auto_schedule.self_link
-  description = "Resource policy chung cho VM dev"
+  description = "Resource policy chung cho VM dev (lịch bật/tắt VM)"
 }
