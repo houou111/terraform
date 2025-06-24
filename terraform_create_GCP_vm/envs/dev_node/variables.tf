@@ -59,3 +59,4 @@ variable "ssh_keys" {
   description = "SSH public key cho VM"
   type        = string
 }
+
