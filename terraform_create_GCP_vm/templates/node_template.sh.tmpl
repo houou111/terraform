@@ -1,4 +1,7 @@
 #!/bin/bash
+# Thiết lập timezone GMT+7 (Asia/Bangkok)
+sudo timedatectl set-timezone Asia/Bangkok
+
 # Template cho node (dev_node, prod_node, ...)
 # Cập nhật hệ thống cho CentOS/RedHat
 sudo dnf update -y || sudo yum update -y
