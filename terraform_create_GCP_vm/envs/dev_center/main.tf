@@ -24,4 +24,5 @@ module "compute" {
   region = var.region
   resource_policies = var.dev_vm_resource_policy_self_link
   ssh_keys = var.ssh_keys
+  assign_static_ip = true
 }

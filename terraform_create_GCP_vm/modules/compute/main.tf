@@ -7,8 +7,8 @@ data "template_file" "startup" {
 }
 
 resource "google_compute_address" "static_ips" {
-  count  = length(var.vm_names)
-  name   = "${var.vm_names[count.index]}-ip"
+  count  = var.assign_static_ip ? length(var.vm_names) : 0
+  name   = var.assign_static_ip ? "${var.vm_names[count.index]}-ip" : null
   region = var.region
 }
 
@@ -27,8 +27,11 @@ resource "google_compute_instance" "nodes" {
 
   network_interface {
     network = var.network
-    access_config {
-      nat_ip = google_compute_address.static_ips[count.index].address
+    dynamic "access_config" {
+      for_each = [1]
+      content {
+        nat_ip = var.assign_static_ip ? google_compute_address.static_ips[count.index].address : null
+      }
     }
   }
 

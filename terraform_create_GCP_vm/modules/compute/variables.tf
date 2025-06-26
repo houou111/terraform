@@ -63,4 +63,10 @@ variable "template" {
   default     = "node_template"
 }
 
+variable "assign_static_ip" {
+  description = "Gán static IP cho VM (true: static, false: ephemeral)"
+  type        = bool
+  default     = false
+}
+
 # Đã bỏ biến startup_script, chỉ dùng biến template để chọn script
